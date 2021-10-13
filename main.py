@@ -2,7 +2,8 @@ def printMenu():
     print("1. Citire lista")
     print("2. Determinare cea mai lungă subsecvență cu proprietatea 1.")
     print("3. Determinare cea mai lungă subsecvență cu proprietatea 2.")
-    print("4. Iesire")
+    print("4. Determinare cea mai lungă subsecvență cu proprietatea 3.")
+    print("x. Iesire")
 
 def citireLista():
     l = []
@@ -98,19 +99,49 @@ def test_get_longest_prime_digits():
     assert (get_longest_prime_digits([2, 55, 4])) == [2, 55]
     assert (get_longest_prime_digits([4, 6, 8])) == []
 
+def produs_cifre_impar(l):
+    """
+    verifica daca produsul elementelor din lista este un numar impar
+    :param l: lista de numere intregi
+    :return: True, in cazul in care produsul este un nr impar, False in caz contrar
+    """
+    s = 1
+    for x in l:
+        s = s * x
+    if s % 2 == 1:
+        return True
+
+def get_longest_product_is_odd(l):
+    """
+        determina una dintre cele mai lungi subsecvente de numere cu produsul nr impar
+        :param l: lista de nr.
+        :return: una din subsecventele maxime cu numerele avand produsul un numar impar
+        """
+    lista = []
+    for i in range(0, len(l)):
+        for j in range(i, len(l)):
+            if (produs_cifre_impar(l[i:j + 1]) and len(l[i:j + 1]) > len(lista)):
+                lista = l[i:j + 1]
+    return lista
+def test_get_longest_product_is_odd():
+    assert (get_longest_product_is_odd([2, 4, 6])) == []
+    assert (get_longest_product_is_odd([2, 5, 3, 4])) == [5, 3]
 def main():
     test_get_longest_all_primes()
     test_get_longest_prime_digits()
+    test_get_longest_product_is_odd()
     l = []
     while True:
         printMenu()
-        optiune = input("Dati optiunea")
+        optiune = input("Dati optiunea:")
         if optiune == '1':
             l = citireLista()
         elif optiune == '2':
             print(get_longest_all_primes(l))
         elif optiune == '3':
             print(get_longest_prime_digits(l))
+        elif optiune == '4':
+            print(get_longest_product_is_odd(l))
         else:
             break
 if __name__ == '__main__':
